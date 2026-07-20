@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
