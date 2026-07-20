@@ -84,7 +84,10 @@
   --sand-deep:   #e2d3ba;
   --taupe:       #c9b89c;   /* Soft Taupe */
   --gold:        #c2984a;   /* Soft Gold — hope, value, purpose */
-  --gold-deep:   #a67f37;
+  /* Darkened from the original #a67f37, which only reached 3.44:1 on ivory.
+     This token is used for small uppercase labels and icons, so it needs the
+     full 4.5:1. The headline gold above is unchanged. */
+  --gold-deep:   #8a6829;
   --gold-soft:   #ddc38a;
 
   /* Text */
@@ -106,6 +109,85 @@
 
   --container:   1180px;
   --ease:        cubic-bezier(.22,.61,.36,1);
+}
+
+/* ============================================================
+   COLOUR THEMES
+   Each theme redefines the same brand tokens, so every component
+   picks it up without knowing themes exist. All four are checked
+   for text contrast — see scripts/check-contrast.mjs.
+
+   "anchor" is the default and lives in :root above.
+   ============================================================ */
+[data-theme="evening"] {
+  --navy:        #16283f;
+  --navy-deep:   #0e1c2e;
+  --navy-soft:   #24405f;
+  --ivory:       #f5efe4;
+  --ivory-warm:  #efe6d6;
+  --sand:        #e3d5bd;
+  --sand-deep:   #d6c4a6;
+  --taupe:       #c2b096;
+  --gold:        #c9a256;
+  --gold-deep:   #7d5f26;
+  --gold-soft:   #e0c88f;
+  --ink:         #241f19;
+  --ink-soft:    #464036;
+  --muted-ink:   #5c5648;
+  --on-navy:     #f6f1e6;
+  --on-navy-mut: #c3cedd;
+  --line:        #ded2bb;
+}
+
+[data-theme="sand"] {
+  --navy:        #1e3350;
+  --navy-deep:   #16273f;
+  --navy-soft:   #2c456a;
+  --ivory:       #f7eedd;
+  --ivory-warm:  #f1e5cf;
+  --sand:        #e7d8bd;
+  --sand-deep:   #dbc9a8;
+  --taupe:       #c6b294;
+  --gold:        #bf9143;
+  --gold-deep:   #7d5c22;
+  --gold-soft:   #ddc086;
+  --ink:         #2b2620;
+  --ink-soft:    #4d463a;
+  --muted-ink:   #635b4b;
+  --on-navy:     #f7f1e5;
+  --on-navy-mut: #c3cad8;
+  --line:        #ddceb2;
+}
+
+[data-theme="christmas"] {
+  --navy:        #1b3b30;
+  --navy-deep:   #12291f;
+  --navy-soft:   #2a5343;
+  --ivory:       #faf5ea;
+  --ivory-warm:  #f4ecdb;
+  --sand:        #ecdfc9;
+  --sand-deep:   #dfceb2;
+  --taupe:       #c7b79c;
+  --gold:        #c9a24e;
+  --gold-deep:   #7f6023;
+  --gold-soft:   #e3cb92;
+  --ink:         #262420;
+  --ink-soft:    #47433a;
+  --muted-ink:   #5e594c;
+  --on-navy:     #f6f2e7;
+  --on-navy-mut: #c3d5c9;
+  --line:        #e0d4bd;
+}
+
+/* ============================================================
+   LETTERING PAIRINGS
+   The token names below stay as they are so every existing rule
+   keeps working; the "classic" pairing simply points them at a
+   different pair of typefaces.
+   ============================================================ */
+[data-font="classic"] {
+  --font-fraunces: var(--font-lora);
+  --font-nunito: var(--font-opensans);
 }
 
 /* ============================================================
@@ -256,6 +338,8 @@ p { margin: 0; }
   font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
   font-weight: 700; color: var(--gold-deep);
 }
+.brand__logo { height: 42px; width: auto; object-fit: contain; }
+.footer .brand__logo { height: 38px; }
 .nav__links {
   display: flex; align-items: center; gap: .35rem;
   list-style: none; margin: 0; padding: 0;

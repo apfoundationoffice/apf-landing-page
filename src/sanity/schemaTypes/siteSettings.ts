@@ -12,8 +12,50 @@ export const siteSettings = defineType({
     { name: "donate", title: "Donate button", default: true },
     { name: "contact", title: "Contact details" },
     { name: "forms", title: "Sign-up form" },
+    { name: "look", title: "Colours & fonts" },
   ],
   fields: [
+    defineField({
+      name: "theme",
+      title: "Colour theme",
+      type: "string",
+      group: "look",
+      description:
+        "Each option has been checked so the text always stays readable — you cannot pick a combination that breaks the design.",
+      options: {
+        list: [
+          { title: "Anchor navy — the usual look", value: "anchor" },
+          { title: "Evening — deeper and quieter", value: "evening" },
+          { title: "Warm sand — lighter and softer", value: "sand" },
+          { title: "Christmas — evergreen and gold", value: "christmas" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "anchor",
+    }),
+    defineField({
+      name: "fontPairing",
+      title: "Lettering",
+      type: "string",
+      group: "look",
+      description: "Two pairings, both tested at every screen size.",
+      options: {
+        list: [
+          { title: "Warm — the usual lettering", value: "warm" },
+          { title: "Classic — a more traditional feel", value: "classic" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "warm",
+    }),
+    defineField({
+      name: "logo",
+      title: "Logo",
+      type: "image",
+      group: "look",
+      description: "Optional. Leave empty to use the anchor mark.",
+    }),
+
     defineField({
       name: "donateEnabled",
       title: "Show the donate button",

@@ -12,15 +12,22 @@ const NAV_LINKS = [
   { href: "#involved", label: "Get Involved" },
 ];
 
-function Brand() {
+function Brand({ logo }: { logo?: { src: string; alt: string } }) {
   return (
     <a className="brand" href="#top" aria-label="Anchored Pathways Foundation home">
-      <span className="brand__mark" aria-hidden="true">
-        <AnchorIcon />
-      </span>
-      <span className="brand__name">
-        Anchored Pathways<small>Foundation</small>
-      </span>
+      {logo?.src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="brand__logo" src={logo.src} alt={logo.alt} />
+      ) : (
+        <>
+          <span className="brand__mark" aria-hidden="true">
+            <AnchorIcon />
+          </span>
+          <span className="brand__name">
+            Anchored Pathways<small>Foundation</small>
+          </span>
+        </>
+      )}
     </a>
   );
 }
@@ -42,7 +49,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
     <header className={`site-header${scrolled ? " scrolled" : ""}`} id="header">
       <div className="container-apf">
         <nav className="nav" aria-label="Primary">
-          <Brand />
+          <Brand logo={settings.logo} />
 
           <ul className="nav__links">
             {NAV_LINKS.map((link) => (

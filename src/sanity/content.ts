@@ -240,6 +240,9 @@ export type SiteSettings = {
   showAddress: boolean;
   address: string;
   signupUrl: string;
+  theme: string;
+  fontPairing: string;
+  logo?: Pic;
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -251,6 +254,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   showAddress: false,
   address: "",
   signupUrl: "https://form.jotform.com/260375246247055",
+  theme: "anchor",
+  fontPairing: "warm",
 };
 
 /* ------------------------------------------------------------------ */
@@ -402,5 +407,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     showAddress: r.showAddress ?? s.showAddress,
     address: pick(r.address, s.address),
     signupUrl: pick(r.signupUrl, s.signupUrl),
+    theme: pick(r.theme, s.theme),
+    fontPairing: pick(r.fontPairing, s.fontPairing),
+    logo: r.logo ? { src: imageUrl(r.logo, 240) ?? "", alt: "Anchored Pathways Foundation" } : undefined,
   };
 }
