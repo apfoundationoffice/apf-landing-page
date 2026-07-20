@@ -1,8 +1,13 @@
 import { AnchorIcon } from "@/components/icons";
+import type { HomeContent, SiteSettings } from "@/sanity/content";
 
-const JOTFORM_URL = "https://form.jotform.com/260375246247055";
-
-export function SiteFooter() {
+export function SiteFooter({
+  content,
+  settings,
+}: {
+  content: HomeContent;
+  settings: SiteSettings;
+}) {
   const year = new Date().getFullYear();
 
   return (
@@ -18,10 +23,7 @@ export function SiteFooter() {
                 Anchored Pathways<small>Foundation</small>
               </span>
             </a>
-            <p>
-              Walking alongside young adults aging out of foster care — toward stability, purpose,
-              and belonging.
-            </p>
+            <p>{content.footerTagline}</p>
           </div>
           <div>
             <h5>Explore</h5>
@@ -33,17 +35,34 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h5>Take a Step</h5>
+            <h5>Get in touch</h5>
             <ul>
-              <li><a href="#join">Join the Community</a></li>
-              <li><a href="#join">Join a Waitlist</a></li>
-              <li><a href="#involved">Become a Mentor</a></li>
               <li>
-                <a href={JOTFORM_URL} target="_blank" rel="noopener">
-                  Get Connected
+                <a href={settings.signupUrl} target="_blank" rel="noopener">
+                  Join the Community
                 </a>
               </li>
+              {settings.contactEmail ? (
+                <li>
+                  <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
+                </li>
+              ) : null}
+              {settings.contactPhone ? (
+                <li>
+                  <a href={`tel:${settings.contactPhone.replace(/[^\d+]/g, "")}`}>{settings.contactPhone}</a>
+                </li>
+              ) : null}
+              {settings.donateEnabled && settings.donateUrl ? (
+                <li>
+                  <a href={settings.donateUrl} target="_blank" rel="noopener">
+                    {settings.donateLabel}
+                  </a>
+                </li>
+              ) : null}
             </ul>
+            {settings.showAddress && settings.address ? (
+              <p style={{ whiteSpace: "pre-line" }}>{settings.address}</p>
+            ) : null}
           </div>
         </div>
         <div className="footer__bottom">

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnchorIcon, MenuIcon } from "@/components/icons";
+import type { SiteSettings } from "@/sanity/content";
 
 const NAV_LINKS = [
   { href: "#top", label: "Home" },
@@ -24,9 +25,11 @@ function Brand() {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ settings }: { settings: SiteSettings }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const showDonate = settings.donateEnabled && Boolean(settings.donateUrl);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -50,9 +53,15 @@ export function SiteHeader() {
           </ul>
 
           <div className="nav__cta">
-            <a className="btn btn--gold btn--sm" href="#join">
-              Join the Community
-            </a>
+            {showDonate ? (
+              <a className="btn btn--gold btn--sm" href={settings.donateUrl} target="_blank" rel="noopener">
+                {settings.donateLabel}
+              </a>
+            ) : (
+              <a className="btn btn--gold btn--sm" href="#join">
+                Join the Community
+              </a>
+            )}
             <button
               className="nav__toggle"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -76,9 +85,21 @@ export function SiteHeader() {
             </li>
           ))}
         </ul>
-        <a className="btn btn--gold" href="#join" onClick={() => setMenuOpen(false)}>
-          Join the Community
-        </a>
+        {showDonate ? (
+          <a
+            className="btn btn--gold"
+            href={settings.donateUrl}
+            target="_blank"
+            rel="noopener"
+            onClick={() => setMenuOpen(false)}
+          >
+            {settings.donateLabel}
+          </a>
+        ) : (
+          <a className="btn btn--gold" href="#join" onClick={() => setMenuOpen(false)}>
+            Join the Community
+          </a>
+        )}
       </div>
     </header>
   );

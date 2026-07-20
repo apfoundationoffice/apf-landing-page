@@ -1,30 +1,24 @@
-/**
- * Events shown in the "What's coming up" section.
- *
- * These fields map one-to-one onto what Unique will edit in the admin
- * dashboard later, so the content model can move to the CMS unchanged.
- */
+import { client, imageUrl } from "@/sanity/client";
+
 export type EventItem = {
-  /** Event name, e.g. "The Believe Gathering" */
   title: string;
   /** ISO date (YYYY-MM-DD). Drives sorting and auto-hiding of past events. */
   date: string;
-  /** Free text, e.g. "6:00 PM" — optional. */
   time?: string;
   location: string;
   description: string;
   image: string;
   imageAlt: string;
-  /** Wherever she's collecting sign-ups: Eventbrite, a Google form, JotForm. */
   signupUrl: string;
   signupLabel: string;
-  /** One event gets the large treatment at the top of the section. */
   featured?: boolean;
-  /** Hide without deleting. */
-  hidden?: boolean;
 };
 
-export const EVENTS: EventItem[] = [
+/**
+ * Launch content, used once to seed the dashboard. After seeding, events are
+ * managed entirely in Sanity — this array is not read by the site.
+ */
+export const SEED_EVENTS = [
   {
     title: "The Believe Gathering",
     date: "2026-12-19",
@@ -32,7 +26,7 @@ export const EVENTS: EventItem[] = [
     location: "Tulsa, Oklahoma",
     description:
       "A Christmas experience created for young adults who have aged out of foster care. More than an event — it is a reminder that they are seen, valued, and not forgotten. Holiday meal, table families, encouraging speakers, and gifts.",
-    image: "/images/celebration.jpg",
+    image: "public/images/celebration.jpg",
     imageAlt: "A joyful graduate in cap and gown blowing celebratory confetti",
     signupUrl: "https://form.jotform.com/260375246247055",
     signupLabel: "Save my seat",
@@ -45,7 +39,7 @@ export const EVENTS: EventItem[] = [
     location: "Tulsa, Oklahoma",
     description:
       "An introduction to The Bridge Program for incoming participants — meet your mentors, walk through what the season looks like, and ask anything.",
-    image: "/images/goals.jpg",
+    image: "public/images/goals.jpg",
     imageAlt: "Overhead view of hands writing goals in a planner beside coffee",
     signupUrl: "https://form.jotform.com/260375246247055",
     signupLabel: "Join the waitlist",
@@ -57,29 +51,47 @@ export const EVENTS: EventItem[] = [
     location: "Tulsa, Oklahoma",
     description:
       "For anyone considering walking alongside a young adult. No experience needed — just a willingness to show up consistently.",
-    image: "/images/mentorship.jpg",
+    image: "public/images/mentorship.jpg",
     imageAlt: "Two people talking over coffee at a wooden cafe table",
     signupUrl: "https://form.jotform.com/260375246247055",
     signupLabel: "Sign me up",
   },
 ];
 
-/** Midnight today, so an event stays listed through the whole of its own day. */
-function startOfToday(): Date {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-}
-
 /**
- * Visible, still-upcoming events in date order. Past events drop off on their
- * own — nothing ages a nonprofit site faster than a stale event on the homepage.
+ * Upcoming, visible events in date order.
+ *
+ * Past events and hidden events are filtered out in the query itself, so the
+ * page never has to think about them. If nothing is coming up the section
+ * removes itself — better a shorter page than one that looks abandoned.
  */
-export function upcomingEvents(events: EventItem[] = EVENTS): EventItem[] {
-  const today = startOfToday();
-  return events
-    .filter((e) => !e.hidden)
-    .filter((e) => new Date(`${e.date}T00:00:00`) >= today)
-    .sort((a, b) => a.date.localeCompare(b.date));
+export async function getUpcomingEvents(): Promise<EventItem[]> {
+  const today = new Date();
+  const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
+    today.getDate(),
+  ).padStart(2, "0")}`;
+
+  const query = `*[_type == "event" && hidden != true && date >= $today] | order(date asc){
+    title, date, time, location, description, image, signupUrl, signupLabel, featured
+  }`;
+
+  try {
+    const rows = await client.fetch<Record<string, any>[]>(query, { today: todayIso }); // eslint-disable-line @typescript-eslint/no-explicit-any
+    return (rows ?? []).map((r) => ({
+      title: r.title ?? "",
+      date: r.date,
+      time: r.time,
+      location: r.location ?? "",
+      description: r.description ?? "",
+      image: imageUrl(r.image, 900) ?? "",
+      imageAlt: r.image?.alt ?? "",
+      signupUrl: r.signupUrl ?? "",
+      signupLabel: r.signupLabel || "Find out more",
+      featured: r.featured ?? false,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 export function formatMonth(date: string): string {
