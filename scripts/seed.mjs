@@ -55,6 +55,7 @@ const IMAGES = {
   hero: ["public/images/community.jpg", "A diverse group of young adults lying close together on a blanket, laughing"],
   why: ["public/images/reflection.jpg", "A young woman journaling by a sunlit window with a coffee and a book"],
   about: ["public/images/friendship.jpg", "Two young adults laughing together in warm, golden evening light"],
+  involved: ["public/images/walking.jpg", "Three friends walking arm in arm, laughing together outdoors"],
   mentorship: ["public/images/mentorship.jpg", "Two people talking over coffee at a wooden cafe table"],
   goals: ["public/images/goals.jpg", "Overhead view of hands writing goals in a planner beside coffee"],
   celebration: ["public/images/celebration.jpg", "A joyful graduate in cap and gown blowing celebratory confetti"],
@@ -71,9 +72,7 @@ async function main() {
   }
 
   console.log("Creating homepage…");
-  await client.createIfNotExists({
-    _id: "homePage",
-    _type: "homePage",
+  const homeDoc = {
     heroEyebrow: "You are not alone",
     heroHeadline: "Hope",
     heroSubheadline:
@@ -159,6 +158,7 @@ async function main() {
     involvedIntro:
       "It takes a community to help a young adult move beyond survival. There’s a place for you in this story.",
     involvedButtonLabel: "Get Connected",
+    involvedImage: img.involved,
     ways: [
       { _type: "object", _key: "mentor", title: "Become a Mentor", description: "Walk alongside a young adult with consistency and care.", icon: "users" },
       { _type: "object", _key: "volunteer", title: "Volunteer", description: "Give your time and gifts to events and programs.", icon: "heart" },
@@ -195,12 +195,15 @@ async function main() {
     },
     verseEvents: { text: "God sets the lonely in families.", reference: "Psalm 68:6" },
     verseClosing: { text: "He will never leave you nor forsake you.", reference: "Deuteronomy 31:6" },
-  });
+  };
+
+  await client.createIfNotExists({ _id: "homePage", _type: "homePage", ...homeDoc });
+  // setIfMissing fills fields added to the schema after the first seed, without
+  // touching anything already edited in the dashboard.
+  await client.patch("homePage").setIfMissing(homeDoc).commit();
 
   console.log("Creating settings…");
-  await client.createIfNotExists({
-    _id: "siteSettings",
-    _type: "siteSettings",
+  const settingsDoc = {
     donateEnabled: false,
     donateLabel: "Donate",
     donateUrl: "",
@@ -208,7 +211,9 @@ async function main() {
     contactPhone: "",
     showAddress: false,
     signupUrl: SIGNUP,
-  });
+  };
+  await client.createIfNotExists({ _id: "siteSettings", _type: "siteSettings", ...settingsDoc });
+  await client.patch("siteSettings").setIfMissing(settingsDoc).commit();
 
   console.log("Creating events…");
   const events = [

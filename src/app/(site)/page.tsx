@@ -191,8 +191,8 @@ export default async function Home() {
                 <div className="frame">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/walking.jpg"
-                    alt="Three friends walking arm in arm, laughing together outdoors"
+                    src={content.involvedImage.src}
+                    alt={content.involvedImage.alt}
                     width={600}
                     height={750}
                   />

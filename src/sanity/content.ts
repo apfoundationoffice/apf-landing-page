@@ -56,6 +56,7 @@ export type HomeContent = {
   involvedHeading: string;
   involvedIntro: string;
   involvedButtonLabel: string;
+  involvedImage: Pic;
   ways: { title: string; description: string; icon: string }[];
 
   aboutEyebrow: string;
@@ -174,6 +175,10 @@ export const DEFAULT_CONTENT: HomeContent = {
   involvedIntro:
     "It takes a community to help a young adult move beyond survival. There’s a place for you in this story.",
   involvedButtonLabel: "Get Connected",
+  involvedImage: {
+    src: "/images/walking.jpg",
+    alt: "Three friends walking arm in arm, laughing together outdoors",
+  },
   ways: [
     {
       title: "Become a Mentor",
@@ -283,8 +288,11 @@ export async function getHomeContent(): Promise<HomeContent> {
   let raw: RawHome = null;
   try {
     raw = await client.fetch<RawHome>(HOME_QUERY);
-  } catch {
+  } catch (err) {
     // Sanity unreachable — fall through to the launch copy rather than 500.
+    // Log it: a silent fallback looks identical to "content not saved", which
+    // is impossible to diagnose from the outside.
+    console.error("[sanity] homepage fetch failed:", (err as Error)?.message, (err as Error)?.cause ?? "");
     return DEFAULT_CONTENT;
   }
   if (!raw) return DEFAULT_CONTENT;
@@ -340,6 +348,7 @@ export async function getHomeContent(): Promise<HomeContent> {
     involvedHeading: pick(r.involvedHeading, d.involvedHeading),
     involvedIntro: pick(r.involvedIntro, d.involvedIntro),
     involvedButtonLabel: pick(r.involvedButtonLabel, d.involvedButtonLabel),
+    involvedImage: pickImage(r.involvedImage, r.involvedImage?.alt, d.involvedImage, 700),
     ways:
       Array.isArray(r.ways) && r.ways.length > 0
         ? r.ways.map((w: any, i: number) => ({  // eslint-disable-line @typescript-eslint/no-explicit-any

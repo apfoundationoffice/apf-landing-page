@@ -89,7 +89,8 @@ export async function getUpcomingEvents(): Promise<EventItem[]> {
       signupLabel: r.signupLabel || "Find out more",
       featured: r.featured ?? false,
     }));
-  } catch {
+  } catch (err) {
+    console.error("[sanity] events fetch failed:", (err as Error)?.message, (err as Error)?.cause ?? "");
     return [];
   }
 }

@@ -84,6 +84,7 @@ export const homePage = defineType({
     }),
     photo("heroImage", "Hero photo", "The big photo at the top of the page."),
     photo("whyImage", "The why photo", "The photo beside “Adulthood shouldn’t begin alone.”"),
+    photo("involvedImage", "Get involved photo", "The photo beside “Help Build the Bridge.”"),
     photo("aboutImage", "Founder photo", "The photo beside the founder’s story."),
 
     defineField({
