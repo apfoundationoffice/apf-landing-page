@@ -28,46 +28,40 @@ export function SiteFooter({
           <div>
             <h5>Explore</h5>
             <ul>
-              <li><a href="#about">About</a></li>
-              <li><a href="#programs">Programs</a></li>
-              <li><a href="#events">Events</a></li>
-              <li><a href="#why">The Why</a></li>
+              <li><a href="#about">Our Story</a></li>
+              <li><a href="#programs">Our Programs</a></li>
+              <li><a href="#events">Believe Gathering</a></li>
+              <li><a href="#foundation">Mission and Vision</a></li>
             </ul>
           </div>
           <div>
-            <h5>Get in touch</h5>
+            <h5>Take Action</h5>
             <ul>
-              <li>
-                <a href={settings.signupUrl} target="_blank" rel="noopener">
-                  Join the Community
-                </a>
-              </li>
-              {settings.contactEmail ? (
-                <li>
-                  <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
-                </li>
-              ) : null}
-              {settings.contactPhone ? (
-                <li>
-                  <a href={`tel:${settings.contactPhone.replace(/[^\d+]/g, "")}`}>{settings.contactPhone}</a>
-                </li>
-              ) : null}
+              <li><a href="#involved">Get Involved</a></li>
               {settings.donateEnabled && settings.donateUrl ? (
                 <li>
                   <a href={settings.donateUrl} target="_blank" rel="noopener">
-                    {settings.donateLabel}
+                    Support Our Mission
+                  </a>
+                </li>
+              ) : null}
+              {settings.contactEmail ? (
+                <li>
+                  <a
+                    href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(
+                      "General Inquiry — Anchored Pathways Foundation",
+                    )}`}
+                  >
+                    Contact Us
                   </a>
                 </li>
               ) : null}
             </ul>
-            {settings.showAddress && settings.address ? (
-              <p style={{ whiteSpace: "pre-line" }}>{settings.address}</p>
-            ) : null}
           </div>
         </div>
         <div className="footer__bottom">
-          <span>&copy; {year} Anchored Pathways Foundation. You are not alone.</span>
-          <span>Your story is still being written.</span>
+          <span>&copy; {year} Anchored Pathways Foundation. All rights reserved.</span>
+          <span>Beyond Survival.</span>
         </div>
       </div>
     </footer>

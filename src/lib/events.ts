@@ -15,48 +15,31 @@ export type EventItem = {
 };
 
 /**
- * Launch content, used once to seed the dashboard. After seeding, events are
- * managed entirely in Sanity — this array is not read by the site.
+ * Launch / fallback events. Sanity is the source of truth once it holds events;
+ * until it's populated (or if it's unreachable) the site renders these so the
+ * section doesn't vanish. Only the Believe Gathering is featured for now — other
+ * programs and dates are not finalized yet.
  */
-export const SEED_EVENTS = [
+export const SEED_EVENTS: EventItem[] = [
   {
-    title: "The Believe Gathering",
-    date: "2026-12-19",
-    time: "6:00 PM",
-    location: "Tulsa, Oklahoma",
+    title: "Believe Gathering 2026",
+    date: "2026-12-12",
+    time: "To be announced",
+    location: "Dallas, Texas",
     description:
-      "A Christmas experience created for young adults who have aged out of foster care. More than an event — it is a reminder that they are seen, valued, and not forgotten. Holiday meal, table families, encouraging speakers, and gifts.",
-    image: "public/images/celebration.jpg",
-    imageAlt: "A joyful graduate in cap and gown blowing celebratory confetti",
+      "A Christmas experience created for young adults who have aged out of foster care — a holiday meal, table families, encouraging speakers, and gifts. More than an event; a reminder that you are seen, valued, and not forgotten.",
+    image: "/images/celebration.jpg",
+    imageAlt: "A joyful young person celebrating, blowing a handful of confetti toward the camera",
     signupUrl: "https://form.jotform.com/260375246247055",
-    signupLabel: "Save my seat",
+    signupLabel: "Get Involved",
     featured: true,
   },
-  {
-    title: "Bridge Program — Fall Cohort Orientation",
-    date: "2026-09-12",
-    time: "10:00 AM",
-    location: "Tulsa, Oklahoma",
-    description:
-      "An introduction to The Bridge Program for incoming participants — meet your mentors, walk through what the season looks like, and ask anything.",
-    image: "public/images/goals.jpg",
-    imageAlt: "Overhead view of hands writing goals in a planner beside coffee",
-    signupUrl: "https://form.jotform.com/260375246247055",
-    signupLabel: "Join the waitlist",
-  },
-  {
-    title: "Mentor Training Morning",
-    date: "2026-08-23",
-    time: "9:00 AM",
-    location: "Tulsa, Oklahoma",
-    description:
-      "For anyone considering walking alongside a young adult. No experience needed — just a willingness to show up consistently.",
-    image: "public/images/mentorship.jpg",
-    imageAlt: "Two people talking over coffee at a wooden cafe table",
-    signupUrl: "https://form.jotform.com/260375246247055",
-    signupLabel: "Sign me up",
-  },
 ];
+
+/** Upcoming, visible fallback events in date order. */
+function fallbackEvents(todayIso: string): EventItem[] {
+  return SEED_EVENTS.filter((e) => e.date >= todayIso).sort((a, b) => a.date.localeCompare(b.date));
+}
 
 /**
  * Upcoming, visible events in date order.
@@ -77,7 +60,7 @@ export async function getUpcomingEvents(): Promise<EventItem[]> {
 
   try {
     const rows = await client.fetch<Record<string, any>[]>(query, { today: todayIso }); // eslint-disable-line @typescript-eslint/no-explicit-any
-    return (rows ?? []).map((r) => ({
+    const mapped = (rows ?? []).map((r) => ({
       title: r.title ?? "",
       date: r.date,
       time: r.time,
@@ -89,9 +72,10 @@ export async function getUpcomingEvents(): Promise<EventItem[]> {
       signupLabel: r.signupLabel || "Find out more",
       featured: r.featured ?? false,
     }));
+    return mapped.length > 0 ? mapped : fallbackEvents(todayIso);
   } catch (err) {
     console.error("[sanity] events fetch failed:", (err as Error)?.message, (err as Error)?.cause ?? "");
-    return [];
+    return fallbackEvents(todayIso);
   }
 }
 

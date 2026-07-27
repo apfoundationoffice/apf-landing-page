@@ -25,6 +25,7 @@ export type HomeContent = {
   heroBadgeTitle: string;
   heroBadgeSubtitle: string;
   ribbonText: string;
+  ribbonReference: string;
 
   whyEyebrow: string;
   whyHeading: string;
@@ -42,6 +43,7 @@ export type HomeContent = {
     tag: string;
     title: string;
     description: string;
+    pointsIntro?: string;
     points: string[];
     image: Pic;
     buttonLabel: string;
@@ -82,46 +84,46 @@ export type HomeContent = {
 };
 
 export const DEFAULT_CONTENT: HomeContent = {
-  heroEyebrow: "You are not alone",
-  heroHeadline: "Hope",
-  heroSubheadline:
-    "Helping emancipated foster youth move beyond survival — and build a life of stability, purpose, and belonging.",
+  heroEyebrow: "A place to belong. A path forward.",
+  heroHeadline: "Beyond Survival",
+  heroSubheadline: "",
   heroDescription:
-    "Anchored Pathways Foundation walks alongside young adults aging out of foster care through mentorship, community, life skills, and faith-based discipleship — a strong foundation for the future they were created for.",
+    "Anchored Pathways Foundation walks alongside young adults ages 17–25 navigating life after foster care through mentorship, practical life-stability support, community, and optional faith-based discipleship.",
   heroImage: {
     src: "/images/community.jpg",
-    alt: "A diverse group of young adults lying close together on a blanket, laughing",
+    alt: "Diverse young adults, around ages 18–24, connecting naturally in a warm, relaxed setting",
   },
-  heroPrimaryButton: { label: "Join the Community", url: "#join" },
-  heroSecondaryButton: { label: "Support the Mission", url: "#involved" },
-  heroBadgeTitle: "Belonging",
-  heroBadgeSubtitle: "Your story is still being written",
-  ribbonText: "You are not alone. Your story is still being written.",
+  heroPrimaryButton: { label: "Explore Our Programs", url: "#programs" },
+  heroSecondaryButton: { label: "Support the Mission", url: "https://gofund.me/05c1de4c8" },
+  heroBadgeTitle: "",
+  heroBadgeSubtitle: "",
+  ribbonText: "A cord of three strands is not quickly broken.",
+  ribbonReference: "Ecclesiastes 4:12",
 
   whyEyebrow: "The Why",
-  whyHeading: "Adulthood shouldn’t begin alone.",
+  whyHeading: "Aging Out Shouldn’t Mean Figuring It Out Alone.",
   whyIntro:
-    "Every year, young adults leave the foster care system facing adulthood without the consistent support, guidance, and community many of their peers rely on. Many navigate questions like…",
+    "Aging out can bring immediate decisions about housing, income, education, transportation, and everyday responsibilities. Without consistent guidance, even basic steps toward independence can become overwhelming.",
   whyQuestions: [
     "Where will I live?",
-    "How do I manage money?",
-    "Who can I trust?",
-    "What is my purpose?",
-    "Who is walking with me?",
+    "How can I earn money and build steady income?",
+    "How do I prepare for college, a career, or entrepreneurship?",
+    "What do I need to successfully live on my own?",
+    "How can I grow in my walk with God and live confidently according to biblical principles?",
   ],
   whyClosing:
-    "At Anchored Pathways, we believe stability begins with more than resources — it begins with relationship, identity, and knowing you are not alone.",
+    "APF helps young adults prepare for adulthood through life-skills workshops, housing-readiness support, career and education preparation, essential resources, mentorship, and biblical guidance. We help them strengthen their faith, build confidence, and discover their God-given purpose.",
   whyImage: {
     src: "/images/reflection.jpg",
-    alt: "A young woman journaling by a sunlit window with a coffee and a book",
+    alt: "Diverse young adults, around ages 18–24, reflecting connection and community",
   },
-  whyBadgeTitle: "More than survival",
-  whyBadgeSubtitle: "Stability, identity & purpose",
+  whyBadgeTitle: "Beyond Survival",
+  whyBadgeSubtitle: "Stronger together. Prepared for what’s next.",
 
   programsEyebrow: "What We Do",
   programsHeading: "One Mission. Two Pathways.",
   programsIntro:
-    "Anchored Pathways Foundation supports emancipated foster youth through two programs designed to meet both practical and personal needs.",
+    "Every young adult needs both practical support and a strong foundation. APF offers two pathways designed to help young adults build stability, grow in faith, discover their purpose, and thrive after foster care.",
   programs: [
     {
       tag: "Discipleship Program",
@@ -140,74 +142,84 @@ export const DEFAULT_CONTENT: HomeContent = {
         src: "/images/mentorship.jpg",
         alt: "Two people talking over coffee at a wooden cafe table",
       },
-      buttonLabel: "Join the Discipleship Waitlist",
-      buttonUrl: "#join",
+      buttonLabel: "Join the Discipleship Interest List",
+      // TODO: swap to the finalized Discipleship Google Form when Unique sends it.
+      buttonUrl: "https://form.jotform.com/260375246247055",
     },
     {
-      tag: "The Bridge Program",
-      title: "Practical Support for the Journey Into Independence.",
+      tag: "Life Stability Program",
+      title: "Build Stability. Gain Confidence. Grow in Community.",
       description:
-        "The Bridge Program provides practical support and guidance as young adults transition from foster care into adulthood. Through mentorship, resources, and life-skills development, participants receive support as they build stability and confidence.",
+        "The Anchored Pathways Life Stability Program helps young adults prepare for independent adulthood after foster care. Through hands-on workshops, mentorship, essential resources, retreats, and family-style gatherings, participants receive practical support to secure housing, build income, pursue education or entrepreneurship, manage everyday responsibilities, and create a stable future—with a community beside them along the way.",
+      pointsIntro: "Participants receive support with:",
       points: [
-        "Housing readiness",
-        "Employment prep",
-        "Education pathways",
-        "Financial literacy",
-        "Life skills",
-        "Goal setting",
+        "Housing readiness and household essentials",
+        "Employment, income-building, and interview preparation",
+        "College, career, and entrepreneurship planning",
+        "Everyday living skills and financial confidence",
+        "Food, transportation, and other stability needs",
+        "Retreats, gatherings, mentorship, and community",
       ],
       image: {
         src: "/images/goals.jpg",
         alt: "Overhead view of hands writing goals in a planner beside coffee",
       },
-      buttonLabel: "Join the Bridge Program Waitlist",
-      buttonUrl: "#join",
+      buttonLabel: "Get Connected",
+      buttonUrl: "https://form.jotform.com/260375246247055",
     },
   ],
 
-  eventsEyebrow: "What’s coming up",
-  eventsHeading: "Come be part of it.",
+  eventsEyebrow: "Believe Gathering 2026",
+  eventsHeading: "There’s a Place for You.",
   eventsIntro:
-    "Gatherings, trainings, and program starts — everyone is welcome, and there is always a seat for you.",
+    "Attend, volunteer, refer a young adult, or partner with us to create a Christmas experience rooted in celebration, connection, and belonging.",
 
   involvedEyebrow: "Get Involved",
   involvedHeading: "Help Build the Bridge.",
   involvedIntro:
-    "It takes a community to help a young adult move beyond survival. There’s a place for you in this story.",
-  involvedButtonLabel: "Get Connected",
+    "Whether you want to volunteer, connect a young adult, partner through your organization, or give financially, there is a meaningful way for you to support young adults beyond foster care.",
+  involvedButtonLabel: "Get Involved",
   involvedImage: {
     src: "/images/walking.jpg",
     alt: "Three friends walking arm in arm, laughing together outdoors",
   },
   ways: [
     {
-      title: "Become a Mentor",
-      description: "Walk alongside a young adult with consistency and care.",
+      title: "Refer a Young Adult",
+      description: "Connect a young adult ages 17–25 impacted by foster care with APF.",
       icon: "users",
     },
-    { title: "Volunteer", description: "Give your time and gifts to events and programs.", icon: "heart" },
-    { title: "Partner as an Org", description: "Align your organization with the mission.", icon: "building" },
+    {
+      title: "Volunteer",
+      description: "Use your time, skills, and gifts to support our gatherings and programs.",
+      icon: "heart",
+    },
+    {
+      title: "Partner with APF",
+      description: "Collaborate through referrals, resources, services, or sponsorship.",
+      icon: "building",
+    },
     {
       title: "Give Financially",
-      description: "Fund stability, mentorship, and the Believe Gathering.",
+      description: "Help fund the Believe Gathering, essential resources, and future programs.",
       icon: "give",
     },
   ],
 
   aboutEyebrow: "Our Story",
   aboutQuote:
-    "Anchored Pathways exists to help young adults move beyond survival — and discover stability, identity, and purpose.",
+    "I know what it feels like to leave foster care and face adulthood without support. God gave purpose to the hardest parts of my story. Anchored Pathways is my yes so other young adults do not have to walk that road alone.",
   founderName: "Unique Evans",
-  founderTitle: "Founder & former foster youth",
+  founderTitle: "Founder and Former Foster Youth",
   aboutBody:
-    "Founded by Unique Evans, who understands firsthand the journey of transitioning from foster care into adulthood. After experiencing both the challenges and the power of faith, community, and support, Unique created Anchored Pathways to help others build a strong foundation for their future.",
+    "After entering foster care at age 10 and later emancipating from the system, Unique Evans knows firsthand how overwhelming it can be to enter adulthood without stable guidance, practical support, or a dependable community. But her story did not end with survival. Through faith, trusted relationships, and the grace of God, she discovered the power of being seen, supported, and reminded of who she is. God used her journey to birth the vision for Anchored Pathways Foundation. APF is committed to walking alongside young adults ages 17–25 who have aged out or emancipated from foster care, connecting them with the mentorship, life skills, essential resources, spiritual encouragement, and genuine community they need to build stable lives and walk boldly in their God-given purpose.",
   missionText:
-    "To support emancipated foster youth as they build lasting stability through mentorship, life skills, community, and faith-based encouragement.",
+    "To equip young adults ages 17–25 who have aged out or emancipated from foster care with mentorship, life skills, essential resources, community, and voluntary faith-based support as they build stability and independence.",
   visionText:
-    "A generation of young adults who leave foster care knowing they are supported, equipped, and created with purpose.",
+    "A generation of young adults moving beyond survival, secure in their identity, supported by community, equipped for adulthood, and confidently walking in their God-given purpose.",
   aboutImage: {
     src: "/images/friendship.jpg",
-    alt: "Two young adults laughing together in warm, golden evening light",
+    alt: "Portrait of Unique Evans, Founder of Anchored Pathways Foundation",
   },
 
   closingHeading: "Ready for More Than Survival?",
@@ -246,10 +258,10 @@ export type SiteSettings = {
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  donateEnabled: false,
-  donateLabel: "Donate",
-  donateUrl: "",
-  contactEmail: "",
+  donateEnabled: true,
+  donateLabel: "Support Our Mission",
+  donateUrl: "https://gofund.me/05c1de4c8",
+  contactEmail: "support@anchoredpaths.org",
   contactPhone: "",
   showAddress: false,
   address: "",
@@ -316,6 +328,7 @@ export async function getHomeContent(): Promise<HomeContent> {
     heroBadgeTitle: pick(r.heroBadgeTitle, d.heroBadgeTitle),
     heroBadgeSubtitle: pick(r.heroBadgeSubtitle, d.heroBadgeSubtitle),
     ribbonText: pick(r.ribbonText, d.ribbonText),
+    ribbonReference: pick(r.ribbonReference, d.ribbonReference),
 
     whyEyebrow: pick(r.whyEyebrow, d.whyEyebrow),
     whyHeading: pick(r.whyHeading, d.whyHeading),
@@ -337,6 +350,7 @@ export async function getHomeContent(): Promise<HomeContent> {
               tag: pick(p.tag, fb.tag),
               title: pick(p.title, fb.title),
               description: pick(p.description, fb.description),
+              pointsIntro: pick(p.pointsIntro, fb.pointsIntro),
               points: pick(p.points, fb.points),
               image: pickImage(p.image, p.image?.alt, fb.image, 800),
               buttonLabel: pick(p.buttonLabel, fb.buttonLabel),

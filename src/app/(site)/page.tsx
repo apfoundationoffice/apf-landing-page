@@ -5,7 +5,6 @@ import { ScriptureBlock } from "@/components/scripture";
 import { EventsSection } from "@/components/events-section";
 import { getHomeContent, getSiteSettings } from "@/sanity/content";
 import {
-  AnchorIcon,
   ArrowRightIcon,
   CheckIcon,
   HeartIcon,
@@ -47,9 +46,6 @@ export default async function Home() {
                   {content.heroHeadline}
                   <span className="accent">.</span>
                 </Reveal>
-                <Reveal as="p" className="hero__sub">
-                  {content.heroSubheadline}
-                </Reveal>
                 <Reveal as="p" className="hero__desc">
                   {content.heroDescription}
                 </Reveal>
@@ -62,7 +58,6 @@ export default async function Home() {
                     {content.heroSecondaryButton.label}
                   </a>
                 </Reveal>
-                <ScriptureBlock verse={content.verseHero} className="hero__verse" delay={0.1} />
               </div>
 
               <Reveal className="hero__media">
@@ -76,15 +71,6 @@ export default async function Home() {
                     fetchPriority="high"
                   />
                 </div>
-                <div className="hero__badge" aria-hidden="true">
-                  <span className="dot">
-                    <HeartIcon />
-                  </span>
-                  <span>
-                    <b>{content.heroBadgeTitle}</b>
-                    <span className="badge-sub">{content.heroBadgeSubtitle}</span>
-                  </span>
-                </div>
               </Reveal>
             </div>
           </div>
@@ -94,6 +80,7 @@ export default async function Home() {
         <div className="ribbon">
           <div className="container-apf">
             <p>&ldquo;{content.ribbonText}&rdquo;</p>
+            {content.ribbonReference ? <cite className="ribbon__ref">{content.ribbonReference}</cite> : null}
           </div>
         </div>
 
@@ -124,8 +111,6 @@ export default async function Home() {
                 <Reveal as="p" className="why__close">
                   {content.whyClosing}
                 </Reveal>
-
-                <ScriptureBlock verse={content.verseWhy} className="why__scripture" delay={0.1} />
               </div>
 
               <Reveal className="why__media">
@@ -162,6 +147,7 @@ export default async function Home() {
                   <div className="pcard__body">
                     <h3>{program.title}</h3>
                     <p>{program.description}</p>
+                    {program.pointsIntro ? <p className="plist-intro">{program.pointsIntro}</p> : null}
                     <ul className="plist">
                       {program.points.map((point) => (
                         <li key={point}>
@@ -266,46 +252,29 @@ export default async function Home() {
                 <Reveal as="p" className="about__body">
                   {content.aboutBody}
                 </Reveal>
-
-                <div className="mv">
-                  <Reveal>
-                    <h4>Our Mission</h4>
-                    <p>{content.missionText}</p>
-                  </Reveal>
-                  <Reveal delay={0.08}>
-                    <h4>Our Vision</h4>
-                    <p>{content.visionText}</p>
-                  </Reveal>
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ======================= FINAL CTA ======================= */}
-        <section className="section final" id="join">
-          <div className="container-apf stack">
-            <Reveal>
-              <AnchorIcon className="final__anchor" aria-hidden="true" />
+        {/* ======================= OUR FOUNDATION — MISSION & VISION ======================= */}
+        <section className="section foundation" id="foundation">
+          <div className="container-apf">
+            <Reveal className="sec-head center">
+              <span className="eyebrow center">Our Foundation</span>
+              <h2>Our Mission. Our Vision.</h2>
             </Reveal>
-            <Reveal as="h2">{content.closingHeading}</Reveal>
-            <Reveal as="p">{content.closingBody}</Reveal>
-            <Reveal className="btn-row">
-              <a className="btn btn--gold" href={settings.signupUrl} target="_blank" rel="noopener">
-                {content.closingButtonLabel}
-                <ArrowRightIcon />
-              </a>
-              {settings.donateEnabled && settings.donateUrl ? (
-                <a className="btn btn--ghost-navy" href={settings.donateUrl} target="_blank" rel="noopener">
-                  {settings.donateLabel}
-                </a>
-              ) : (
-                <a className="btn btn--ghost-navy" href="#involved">
-                  {content.closingSecondaryLabel}
-                </a>
-              )}
-            </Reveal>
-            <ScriptureBlock verse={content.verseClosing} className="final__verse" delay={0.1} />
+            <ScriptureBlock verse={content.verseHero} className="foundation__verse" delay={0.1} />
+            <div className="mv-cards">
+              <Reveal className="mv-card">
+                <h3>Our Mission</h3>
+                <p>{content.missionText}</p>
+              </Reveal>
+              <Reveal className="mv-card" delay={0.08}>
+                <h3>Our Vision</h3>
+                <p>{content.visionText}</p>
+              </Reveal>
+            </div>
           </div>
         </section>
       </main>

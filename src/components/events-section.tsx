@@ -33,9 +33,17 @@ function EventMetaList({ event, compact }: { event: EventItem; compact?: boolean
   );
 }
 
-function FeaturedEvent({ event, verse }: { event: EventItem; verse: HomeContent["verseEvents"] }) {
+function FeaturedEvent({
+  event,
+  verse,
+  solo,
+}: {
+  event: EventItem;
+  verse: HomeContent["verseEvents"];
+  solo?: boolean;
+}) {
   return (
-    <Reveal className="event-feature">
+    <Reveal className={`event-feature${solo ? " event-feature--solo" : ""}`}>
       {event.image ? (
         <div className="event-feature__media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -101,7 +109,9 @@ export async function EventsSection({ content }: { content: HomeContent }) {
           <p className="lead">{content.eventsIntro}</p>
         </Reveal>
 
-        {featured ? <FeaturedEvent event={featured} verse={content.verseEvents} /> : null}
+        {featured ? (
+          <FeaturedEvent event={featured} verse={content.verseEvents} solo={rest.length === 0} />
+        ) : null}
 
         {rest.length > 0 ? (
           <div className="event-list">
