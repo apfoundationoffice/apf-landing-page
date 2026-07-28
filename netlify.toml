@@ -1,0 +1,15 @@
+# Netlify build configuration.
+#
+# The Next.js plugin is installed automatically when Netlify detects Next —
+# it wires up the serverless functions, image handling, and the 60s
+# revalidation the pages use. Nothing to configure for that here.
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  # Pin Node so the build is reproducible. 22.x is required because:
+  #   - Next.js 16 needs Node 20+
+  #   - the build script's --use-system-ca flag only exists in Node 22.15+
+  # Netlify installs the latest 22.x, which satisfies both.
+  NODE_VERSION = "22"
