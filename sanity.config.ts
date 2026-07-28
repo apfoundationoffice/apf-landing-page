@@ -1,5 +1,6 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { presentationTool } from "sanity/presentation";
 import { visionTool } from "@sanity/vision";
 
 import { apiVersion, dataset, projectId } from "@/sanity/env";
@@ -30,5 +31,13 @@ export default defineConfig({
         : prev,
   },
 
-  plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [
+    structureTool({ structure }),
+    // Side-by-side live preview with click-to-edit. Same-origin, so the preview
+    // is this same deployment; it flips Draft Mode on via the enable route.
+    presentationTool({
+      previewUrl: { previewMode: { enable: "/api/draft-mode/enable" } },
+    }),
+    visionTool({ defaultApiVersion: apiVersion }),
+  ],
 });

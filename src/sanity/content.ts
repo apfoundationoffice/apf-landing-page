@@ -1,5 +1,7 @@
 import type { Image } from "sanity";
-import { client, imageUrl } from "./client";
+import { stegaClean } from "next-sanity";
+import { imageUrl } from "./client";
+import { sanityFetch } from "./live";
 
 /**
  * Content for the homepage, read from Sanity with the launch copy as a
@@ -296,12 +298,23 @@ function str(v: unknown): string {
   return typeof v === "string" ? v : "";
 }
 
+/**
+ * Like str(), but strips Visual Editing's invisible marker characters. Use for
+ * any value that isn't shown as plain text — URLs, emails, phone numbers, and
+ * lookup keys (theme, icon) — because those markers break links, `new Date()`,
+ * and key matching. In published mode there are no markers, so this is a no-op.
+ */
+function clean(v: unknown): string {
+  return stegaClean(str(v));
+}
+
 function verseRaw(raw: { text?: string; reference?: string } | undefined): Verse {
   return { text: str(raw?.text), reference: str(raw?.reference) };
 }
 
 function pickBtn(raw: { label?: string; url?: string } | undefined, fallback: Btn): Btn {
-  return { label: pick(raw?.label, fallback.label), url: pick(raw?.url, fallback.url) };
+  // Label is visible text (keep it editable); the URL is not shown, so clean it.
+  return { label: pick(raw?.label, fallback.label), url: stegaClean(pick(raw?.url, fallback.url)) };
 }
 
 const HOME_QUERY = `*[_type == "homePage"][0]`;
@@ -312,7 +325,8 @@ type RawHome = Record<string, unknown> | null;
 export async function getHomeContent(): Promise<HomeContent> {
   let raw: RawHome = null;
   try {
-    raw = await client.fetch<RawHome>(HOME_QUERY);
+    const { data } = await sanityFetch({ query: HOME_QUERY });
+    raw = data as RawHome;
   } catch (err) {
     // Sanity unreachable — fall through to the launch copy rather than 500.
     // Log it: a silent fallback looks identical to "content not saved", which
@@ -366,7 +380,7 @@ export async function getHomeContent(): Promise<HomeContent> {
               points: Array.isArray(p.points) ? p.points : [],
               image: pickImage(p.image, p.image?.alt, fb.image, 800),
               buttonLabel: str(p.buttonLabel),
-              buttonUrl: pick(p.buttonUrl, fb.buttonUrl),
+              buttonUrl: stegaClean(pick(p.buttonUrl, fb.buttonUrl)),
             };
           })
         : d.programs,
@@ -385,7 +399,7 @@ export async function getHomeContent(): Promise<HomeContent> {
         ? r.ways.map((w: any) => ({  // eslint-disable-line @typescript-eslint/no-explicit-any
             title: str(w.title),
             description: str(w.description),
-            icon: pick(w.icon, "heart"),
+            icon: clean(w.icon) || "heart",
           }))
         : d.ways,
 
@@ -415,7 +429,8 @@ export async function getHomeContent(): Promise<HomeContent> {
 export async function getSiteSettings(): Promise<SiteSettings> {
   let raw: RawHome = null;
   try {
-    raw = await client.fetch<RawHome>(SETTINGS_QUERY);
+    const { data } = await sanityFetch({ query: SETTINGS_QUERY });
+    raw = data as RawHome;
   } catch {
     return DEFAULT_SETTINGS;
   }
@@ -424,17 +439,20 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const s = DEFAULT_SETTINGS;
   const r = raw as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+  // Every field here feeds an attribute, a link, or a lookup — none is visible
+  // text — so all are stega-cleaned. donateLabel is the exception (it shows on
+  // the button), so it keeps its markers for click-to-edit.
   return {
     donateEnabled: r.donateEnabled ?? s.donateEnabled,
     donateLabel: pick(r.donateLabel, s.donateLabel),
-    donateUrl: pick(r.donateUrl, s.donateUrl),
-    contactEmail: pick(r.contactEmail, s.contactEmail),
-    contactPhone: pick(r.contactPhone, s.contactPhone),
+    donateUrl: clean(r.donateUrl) || s.donateUrl,
+    contactEmail: clean(r.contactEmail) || s.contactEmail,
+    contactPhone: clean(r.contactPhone) || s.contactPhone,
     showAddress: r.showAddress ?? s.showAddress,
     address: pick(r.address, s.address),
-    signupUrl: pick(r.signupUrl, s.signupUrl),
-    theme: pick(r.theme, s.theme),
-    fontPairing: pick(r.fontPairing, s.fontPairing),
+    signupUrl: clean(r.signupUrl) || s.signupUrl,
+    theme: clean(r.theme) || s.theme,
+    fontPairing: clean(r.fontPairing) || s.fontPairing,
     logo: r.logo ? { src: imageUrl(r.logo, 240) ?? "", alt: "Anchored Pathways Foundation" } : undefined,
   };
 }

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Nunito_Sans, Lora, Open_Sans } from "next/font/google";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
 import "../globals.css";
 import { getSiteSettings } from "@/sanity/content";
+import { SanityLive } from "@/sanity/live";
 
 /* The "warm" pairing — the default look. */
 const fraunces = Fraunces({
@@ -48,6 +51,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getSiteSettings();
+  const { isEnabled: isDraft } = await draftMode();
 
   // Only ever emit a known value — an unrecognised one from the CMS should
   // fall back to the house style rather than leave the page unthemed.
@@ -61,7 +65,13 @@ export default async function RootLayout({
       data-font={font}
       className={`${fraunces.variable} ${nunitoSans.variable} ${lora.variable} ${openSans.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Streams published updates so an edit goes live without a rebuild. */}
+        <SanityLive />
+        {/* Click-to-edit overlay — only while an editor is previewing drafts. */}
+        {isDraft ? <VisualEditing /> : null}
+      </body>
     </html>
   );
 }

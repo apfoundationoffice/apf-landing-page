@@ -1,4 +1,6 @@
-import { client, imageUrl } from "@/sanity/client";
+import { stegaClean } from "next-sanity";
+import { imageUrl } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/live";
 
 export type EventItem = {
   title: string;
@@ -59,16 +61,19 @@ export async function getUpcomingEvents(): Promise<EventItem[]> {
   }`;
 
   try {
-    const rows = await client.fetch<Record<string, any>[]>(query, { today: todayIso }); // eslint-disable-line @typescript-eslint/no-explicit-any
-    const mapped = (rows ?? []).map((r) => ({
+    const { data } = await sanityFetch({ query, params: { today: todayIso } });
+    const rows = (data ?? []) as Record<string, any>[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+    const mapped = rows.map((r) => ({
       title: r.title ?? "",
-      date: r.date,
+      // date is parsed with new Date() and signupUrl is a link, so strip the
+      // Visual Editing markers that would otherwise break them in preview.
+      date: stegaClean(r.date),
       time: r.time,
       location: r.location ?? "",
       description: r.description ?? "",
       image: imageUrl(r.image, 900) ?? "",
       imageAlt: r.image?.alt ?? "",
-      signupUrl: r.signupUrl ?? "",
+      signupUrl: stegaClean(r.signupUrl ?? ""),
       signupLabel: r.signupLabel || "Find out more",
       featured: r.featured ?? false,
     }));
