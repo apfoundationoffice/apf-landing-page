@@ -285,11 +285,19 @@ function pickImage(source: Image | undefined, alt: string | undefined, fallback:
   return url ? { src: url, alt: pick(alt, fallback.alt) } : fallback;
 }
 
-function pickVerse(raw: { text?: string; reference?: string } | undefined, fallback: Verse): Verse {
-  return {
-    text: pick(raw?.text, fallback.text),
-    reference: pick(raw?.reference, fallback.reference),
-  };
+/**
+ * Text used exactly as stored. When the homepage document exists, an empty
+ * value means the editor deliberately removed it — so we must NOT substitute a
+ * fallback, or clearing a field (e.g. deleting a scripture) would silently
+ * restore the original. The document-level fallback in getHomeContent still
+ * covers the real disaster case (Sanity missing or unreachable).
+ */
+function str(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+
+function verseRaw(raw: { text?: string; reference?: string } | undefined): Verse {
+  return { text: str(raw?.text), reference: str(raw?.reference) };
 }
 
 function pickBtn(raw: { label?: string; url?: string } | undefined, fallback: Btn): Btn {
@@ -317,86 +325,90 @@ export async function getHomeContent(): Promise<HomeContent> {
   const d = DEFAULT_CONTENT;
   const r = raw as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+  // The document exists, so its values are authoritative — text is taken
+  // exactly as stored (empty = the editor removed it). Images and buttons keep
+  // a fallback because a missing photo breaks the layout and an empty link
+  // breaks navigation, and neither is something the editor sets out to "delete".
   return {
-    heroEyebrow: pick(r.heroEyebrow, d.heroEyebrow),
-    heroHeadline: pick(r.heroHeadline, d.heroHeadline),
-    heroSubheadline: pick(r.heroSubheadline, d.heroSubheadline),
-    heroDescription: pick(r.heroDescription, d.heroDescription),
+    heroEyebrow: str(r.heroEyebrow),
+    heroHeadline: str(r.heroHeadline),
+    heroSubheadline: str(r.heroSubheadline),
+    heroDescription: str(r.heroDescription),
     heroImage: pickImage(r.heroImage, r.heroImage?.alt, d.heroImage, 900),
     heroPrimaryButton: pickBtn(r.heroPrimaryButton, d.heroPrimaryButton),
     heroSecondaryButton: pickBtn(r.heroSecondaryButton, d.heroSecondaryButton),
-    heroBadgeTitle: pick(r.heroBadgeTitle, d.heroBadgeTitle),
-    heroBadgeSubtitle: pick(r.heroBadgeSubtitle, d.heroBadgeSubtitle),
-    ribbonText: pick(r.ribbonText, d.ribbonText),
-    ribbonReference: pick(r.ribbonReference, d.ribbonReference),
+    heroBadgeTitle: str(r.heroBadgeTitle),
+    heroBadgeSubtitle: str(r.heroBadgeSubtitle),
+    ribbonText: str(r.ribbonText),
+    ribbonReference: str(r.ribbonReference),
 
-    whyEyebrow: pick(r.whyEyebrow, d.whyEyebrow),
-    whyHeading: pick(r.whyHeading, d.whyHeading),
-    whyIntro: pick(r.whyIntro, d.whyIntro),
-    whyQuestions: pick(r.whyQuestions, d.whyQuestions),
-    whyClosing: pick(r.whyClosing, d.whyClosing),
+    whyEyebrow: str(r.whyEyebrow),
+    whyHeading: str(r.whyHeading),
+    whyIntro: str(r.whyIntro),
+    whyQuestions: Array.isArray(r.whyQuestions) ? r.whyQuestions : [],
+    whyClosing: str(r.whyClosing),
     whyImage: pickImage(r.whyImage, r.whyImage?.alt, d.whyImage, 700),
-    whyBadgeTitle: pick(r.whyBadgeTitle, d.whyBadgeTitle),
-    whyBadgeSubtitle: pick(r.whyBadgeSubtitle, d.whyBadgeSubtitle),
+    whyBadgeTitle: str(r.whyBadgeTitle),
+    whyBadgeSubtitle: str(r.whyBadgeSubtitle),
 
-    programsEyebrow: pick(r.programsEyebrow, d.programsEyebrow),
-    programsHeading: pick(r.programsHeading, d.programsHeading),
-    programsIntro: pick(r.programsIntro, d.programsIntro),
+    programsEyebrow: str(r.programsEyebrow),
+    programsHeading: str(r.programsHeading),
+    programsIntro: str(r.programsIntro),
     programs:
       Array.isArray(r.programs) && r.programs.length > 0
         ? r.programs.map((p: any, i: number) => {  // eslint-disable-line @typescript-eslint/no-explicit-any
             const fb = d.programs[i] ?? d.programs[0];
             return {
-              tag: pick(p.tag, fb.tag),
-              title: pick(p.title, fb.title),
-              description: pick(p.description, fb.description),
-              pointsIntro: pick(p.pointsIntro, fb.pointsIntro),
-              points: pick(p.points, fb.points),
+              tag: str(p.tag),
+              title: str(p.title),
+              description: str(p.description),
+              pointsIntro: str(p.pointsIntro),
+              points: Array.isArray(p.points) ? p.points : [],
               image: pickImage(p.image, p.image?.alt, fb.image, 800),
-              buttonLabel: pick(p.buttonLabel, fb.buttonLabel),
+              buttonLabel: str(p.buttonLabel),
               buttonUrl: pick(p.buttonUrl, fb.buttonUrl),
             };
           })
         : d.programs,
 
-    eventsEyebrow: pick(r.eventsEyebrow, d.eventsEyebrow),
-    eventsHeading: pick(r.eventsHeading, d.eventsHeading),
-    eventsIntro: pick(r.eventsIntro, d.eventsIntro),
+    eventsEyebrow: str(r.eventsEyebrow),
+    eventsHeading: str(r.eventsHeading),
+    eventsIntro: str(r.eventsIntro),
 
-    involvedEyebrow: pick(r.involvedEyebrow, d.involvedEyebrow),
-    involvedHeading: pick(r.involvedHeading, d.involvedHeading),
-    involvedIntro: pick(r.involvedIntro, d.involvedIntro),
-    involvedButtonLabel: pick(r.involvedButtonLabel, d.involvedButtonLabel),
+    involvedEyebrow: str(r.involvedEyebrow),
+    involvedHeading: str(r.involvedHeading),
+    involvedIntro: str(r.involvedIntro),
+    involvedButtonLabel: str(r.involvedButtonLabel),
     involvedImage: pickImage(r.involvedImage, r.involvedImage?.alt, d.involvedImage, 700),
     ways:
       Array.isArray(r.ways) && r.ways.length > 0
-        ? r.ways.map((w: any, i: number) => ({  // eslint-disable-line @typescript-eslint/no-explicit-any
-            title: pick(w.title, d.ways[i]?.title ?? ""),
-            description: pick(w.description, d.ways[i]?.description ?? ""),
-            icon: pick(w.icon, d.ways[i]?.icon ?? "heart"),
+        ? r.ways.map((w: any) => ({  // eslint-disable-line @typescript-eslint/no-explicit-any
+            title: str(w.title),
+            description: str(w.description),
+            icon: pick(w.icon, "heart"),
           }))
         : d.ways,
 
-    aboutEyebrow: pick(r.aboutEyebrow, d.aboutEyebrow),
-    aboutQuote: pick(r.aboutQuote, d.aboutQuote),
-    founderName: pick(r.founderName, d.founderName),
-    founderTitle: pick(r.founderTitle, d.founderTitle),
-    aboutBody: pick(r.aboutBody, d.aboutBody),
-    missionText: pick(r.missionText, d.missionText),
-    visionText: pick(r.visionText, d.visionText),
+    aboutEyebrow: str(r.aboutEyebrow),
+    aboutQuote: str(r.aboutQuote),
+    founderName: str(r.founderName),
+    founderTitle: str(r.founderTitle),
+    aboutBody: str(r.aboutBody),
+    missionText: str(r.missionText),
+    visionText: str(r.visionText),
     aboutImage: pickImage(r.aboutImage, r.aboutImage?.alt, d.aboutImage, 700),
 
-    closingHeading: pick(r.closingHeading, d.closingHeading),
-    closingBody: pick(r.closingBody, d.closingBody),
-    closingButtonLabel: pick(r.closingButtonLabel, d.closingButtonLabel),
-    closingSecondaryLabel: pick(r.closingSecondaryLabel, d.closingSecondaryLabel),
+    closingHeading: str(r.closingHeading),
+    closingBody: str(r.closingBody),
+    closingButtonLabel: str(r.closingButtonLabel),
+    closingSecondaryLabel: str(r.closingSecondaryLabel),
 
-    footerTagline: pick(r.footerTagline, d.footerTagline),
+    footerTagline: str(r.footerTagline),
 
-    verseHero: pickVerse(r.verseHero, d.verseHero),
-    verseWhy: pickVerse(r.verseWhy, d.verseWhy),
-    verseEvents: pickVerse(r.verseEvents, d.verseEvents),
-    verseClosing: pickVerse(r.verseClosing, d.verseClosing),
+    verseHero: verseRaw(r.verseHero),
+    verseWhy: verseRaw(r.verseWhy),
+    verseEvents: verseRaw(r.verseEvents),
+    verseClosing: verseRaw(r.verseClosing),
   };
 }
 
