@@ -1,7 +1,7 @@
 import type { Image } from "sanity";
 import { stegaClean } from "next-sanity";
 import { imageUrl } from "./client";
-import { sanityFetch } from "./live";
+import { loadQuery } from "./live";
 
 /**
  * Content for the homepage, read from Sanity with the launch copy as a
@@ -325,8 +325,7 @@ type RawHome = Record<string, unknown> | null;
 export async function getHomeContent(): Promise<HomeContent> {
   let raw: RawHome = null;
   try {
-    const { data } = await sanityFetch({ query: HOME_QUERY });
-    raw = data as RawHome;
+    raw = await loadQuery<RawHome>(HOME_QUERY);
   } catch (err) {
     // Sanity unreachable — fall through to the launch copy rather than 500.
     // Log it: a silent fallback looks identical to "content not saved", which
@@ -429,8 +428,7 @@ export async function getHomeContent(): Promise<HomeContent> {
 export async function getSiteSettings(): Promise<SiteSettings> {
   let raw: RawHome = null;
   try {
-    const { data } = await sanityFetch({ query: SETTINGS_QUERY });
-    raw = data as RawHome;
+    raw = await loadQuery<RawHome>(SETTINGS_QUERY);
   } catch {
     return DEFAULT_SETTINGS;
   }

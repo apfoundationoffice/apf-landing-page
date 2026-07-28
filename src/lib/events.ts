@@ -1,6 +1,6 @@
 import { stegaClean } from "next-sanity";
 import { imageUrl } from "@/sanity/client";
-import { sanityFetch } from "@/sanity/live";
+import { loadQuery } from "@/sanity/live";
 
 export type EventItem = {
   title: string;
@@ -61,8 +61,8 @@ export async function getUpcomingEvents(): Promise<EventItem[]> {
   }`;
 
   try {
-    const { data } = await sanityFetch({ query, params: { today: todayIso } });
-    const rows = (data ?? []) as Record<string, any>[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+    const data = await loadQuery<Record<string, any>[]>(query, { today: todayIso }); // eslint-disable-line @typescript-eslint/no-explicit-any
+    const rows = data ?? [];
     const mapped = rows.map((r) => ({
       title: r.title ?? "",
       // date is parsed with new Date() and signupUrl is a link, so strip the
