@@ -121,6 +121,7 @@ export const homePage = defineType({
     defineField({ name: "heroBadgeTitle", title: "Photo badge title", type: "string", group: "advanced", fieldset: "heroAdv" }),
     defineField({ name: "heroBadgeSubtitle", title: "Photo badge subtitle", type: "string", group: "advanced", fieldset: "heroAdv" }),
     defineField({ name: "ribbonText", title: "Tagline band", type: "string", group: "advanced", fieldset: "heroAdv", description: "The quote on the navy strip under the hero." }),
+    defineField({ name: "ribbonReference", title: "Tagline band — verse reference", type: "string", group: "advanced", fieldset: "heroAdv", description: "The small reference under the tagline, e.g. Ecclesiastes 4:12. Clear it to hide the reference." }),
 
     /* ---------------- ADVANCED: THE WHY ---------------- */
     defineField({ name: "whyEyebrow", title: "Small text above the heading", type: "string", group: "advanced", fieldset: "whyAdv" }),
@@ -156,6 +157,12 @@ export const homePage = defineType({
             defineField({ name: "tag", title: "Label on the photo", type: "string" }),
             defineField({ name: "title", title: "Program title", type: "string" }),
             defineField({ name: "description", title: "Description", type: "text", rows: 5 }),
+            defineField({
+              name: "pointsIntro",
+              title: "Line above the bullets",
+              type: "string",
+              description: 'Optional, e.g. "Participants receive support with:". Clear it to hide.',
+            }),
             defineField({
               name: "points",
               title: "Bullet points",
