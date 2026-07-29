@@ -226,6 +226,16 @@ export const homePage = defineType({
       ],
     }),
     defineField({ name: "involvedButtonLabel", title: "Button words", type: "string", group: "advanced", fieldset: "involvedAdv" }),
+    defineField({
+      name: "involvedButtonUrl",
+      title: "Button link",
+      type: "url",
+      group: "advanced",
+      fieldset: "involvedAdv",
+      description:
+        "Where the Get Involved button goes — paste a form link (JotForm, Google Form, etc.). Leave empty to use the general Sign-up form link.",
+      validation: (rule) => rule.uri({ scheme: ["http", "https"] }).warning("This does not look like a web address."),
+    }),
 
     /* ---------------- ADVANCED: ABOUT ---------------- */
     defineField({ name: "aboutEyebrow", title: "Small text above the quote", type: "string", group: "advanced", fieldset: "aboutAdv" }),

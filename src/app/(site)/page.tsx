@@ -211,7 +211,12 @@ export default async function Home() {
                 </div>
 
                 <Reveal className="btn-row" style={{ marginTop: "1.8rem" }}>
-                  <a className="btn btn--gold" href={settings.signupUrl} target="_blank" rel="noopener">
+                  <a
+                    className="btn btn--gold"
+                    href={content.involvedButtonUrl || settings.signupUrl}
+                    target="_blank"
+                    rel="noopener"
+                  >
                     {content.involvedButtonLabel}
                     <ArrowRightIcon />
                   </a>

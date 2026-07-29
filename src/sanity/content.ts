@@ -60,6 +60,7 @@ export type HomeContent = {
   involvedHeading: string;
   involvedIntro: string;
   involvedButtonLabel: string;
+  involvedButtonUrl: string;
   involvedImage: Pic;
   ways: { title: string; description: string; icon: string }[];
 
@@ -181,6 +182,7 @@ export const DEFAULT_CONTENT: HomeContent = {
   involvedIntro:
     "Whether you want to volunteer, connect a young adult, partner through your organization, or give financially, there is a meaningful way for you to support young adults beyond foster care.",
   involvedButtonLabel: "Get Involved",
+  involvedButtonUrl: "",
   involvedImage: {
     src: "/images/walking.jpg",
     alt: "Three friends walking arm in arm, laughing together outdoors",
@@ -392,6 +394,7 @@ export async function getHomeContent(): Promise<HomeContent> {
     involvedHeading: str(r.involvedHeading),
     involvedIntro: str(r.involvedIntro),
     involvedButtonLabel: str(r.involvedButtonLabel),
+    involvedButtonUrl: clean(r.involvedButtonUrl),
     involvedImage: pickImage(r.involvedImage, r.involvedImage?.alt, d.involvedImage, 700),
     ways:
       Array.isArray(r.ways) && r.ways.length > 0
