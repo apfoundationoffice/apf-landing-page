@@ -83,7 +83,6 @@ export const homePage = defineType({
       description: "The smaller paragraph underneath it.",
     }),
     photo("heroImage", "Hero photo", "The big photo at the top of the page."),
-    photo("whyImage", "The why photo", "The photo beside “Adulthood shouldn’t begin alone.”"),
     photo("involvedImage", "Get involved photo", "The photo beside “Help Build the Bridge.”"),
     photo("aboutImage", "Founder photo", "The photo beside the founder’s story."),
 
@@ -137,8 +136,6 @@ export const homePage = defineType({
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({ name: "whyClosing", title: "Closing sentence", type: "text", rows: 3, group: "advanced", fieldset: "whyAdv" }),
-    defineField({ name: "whyBadgeTitle", title: "Photo badge title", type: "string", group: "advanced", fieldset: "whyAdv" }),
-    defineField({ name: "whyBadgeSubtitle", title: "Photo badge subtitle", type: "string", group: "advanced", fieldset: "whyAdv" }),
 
     /* ---------------- ADVANCED: PROGRAMS ---------------- */
     defineField({ name: "programsEyebrow", title: "Small text above the heading", type: "string", group: "advanced", fieldset: "programsAdv" }),

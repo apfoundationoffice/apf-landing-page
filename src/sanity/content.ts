@@ -34,9 +34,6 @@ export type HomeContent = {
   whyIntro: string;
   whyQuestions: string[];
   whyClosing: string;
-  whyImage: Pic;
-  whyBadgeTitle: string;
-  whyBadgeSubtitle: string;
 
   programsEyebrow: string;
   programsHeading: string;
@@ -116,12 +113,6 @@ export const DEFAULT_CONTENT: HomeContent = {
   ],
   whyClosing:
     "APF helps young adults prepare for adulthood through life-skills workshops, housing-readiness support, career and education preparation, essential resources, mentorship, and biblical guidance. We help them strengthen their faith, build confidence, and discover their God-given purpose.",
-  whyImage: {
-    src: "/images/reflection.jpg",
-    alt: "Diverse young adults, around ages 18–24, reflecting connection and community",
-  },
-  whyBadgeTitle: "Beyond Survival",
-  whyBadgeSubtitle: "Stronger together. Prepared for what’s next.",
 
   programsEyebrow: "What We Do",
   programsHeading: "One Mission. Two Pathways.",
@@ -362,9 +353,6 @@ export async function getHomeContent(): Promise<HomeContent> {
     whyIntro: str(r.whyIntro),
     whyQuestions: Array.isArray(r.whyQuestions) ? r.whyQuestions : [],
     whyClosing: str(r.whyClosing),
-    whyImage: pickImage(r.whyImage, r.whyImage?.alt, d.whyImage, 700),
-    whyBadgeTitle: str(r.whyBadgeTitle),
-    whyBadgeSubtitle: str(r.whyBadgeSubtitle),
 
     programsEyebrow: str(r.programsEyebrow),
     programsHeading: str(r.programsHeading),

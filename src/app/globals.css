@@ -469,27 +469,16 @@ p { margin: 0; }
    THE WHY
    ============================================================ */
 .why { background: var(--ivory); }
-.why__grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 4rem); align-items: center;
-}
-.why__title { font-size: clamp(2rem,5vw,3rem); margin-top: .7rem; }
-.why__media { position: relative; }
-.why__media .frame {
-  border-radius: var(--radius-lg-apf); overflow: hidden; aspect-ratio: 5/6;
-  box-shadow: var(--shadow-md);
-}
-.why__media .frame img { width: 100%; height: 100%; object-fit: cover; }
-.why__media .stat {
-  position: absolute; left: -16px; bottom: 26px;
-  background: var(--gold); color: var(--navy-deep);
-  padding: .8rem 1rem; border-radius: 16px; max-width: 168px;
-  box-shadow: var(--shadow-md); transform: rotate(-2deg);
-}
-.why__media .stat b { font-family: var(--font-fraunces), serif; font-size: 1.12rem; display:block; line-height:1.08; }
-.why__media .stat span { font-size: .78rem; font-weight: 600; }
 
-.qwrap { margin-top: 1.6rem; display: grid; gap: .7rem; }
+/* Full-width, centered layout (no photo). The question cards sit in a
+   centered two-column grid so the section fills the space cleanly. */
+.why__questions {
+  margin: 2.4rem auto 0;
+  max-width: 820px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
 .qcard {
   display: flex; align-items: center; gap: .9rem;
   background: #fff; border: 1px solid var(--line);
@@ -504,17 +493,17 @@ p { margin: 0; }
 }
 .qcard p { font-weight: 600; color: var(--navy); }
 .why__close {
-  margin-top: 1.7rem; padding: 1.3rem 1.5rem;
+  margin: 1.9rem auto 0;
+  max-width: 760px;
+  padding: 1.3rem 1.5rem;
   border-left: 4px solid var(--gold); background: var(--sand);
   border-radius: 0 16px 16px 0; color: var(--ink-soft);
   font-size: 1.05rem;
 }
 .why__close b { color: var(--navy); }
 
-@media (max-width: 820px) {
-  .why__grid { grid-template-columns: 1fr; }
-  .why__media { order: -1; max-width: 440px; margin-inline:auto; }
-  .why__media .stat { left: 6px; }
+@media (max-width: 640px) {
+  .why__questions { grid-template-columns: 1fr; }
 }
 
 /* ============================================================

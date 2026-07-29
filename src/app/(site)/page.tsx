@@ -87,43 +87,24 @@ export default async function Home() {
         {/* ======================= THE WHY ======================= */}
         <section className="section why" id="why">
           <div className="container-apf">
-            <div className="why__grid">
-              <div className="why__copy">
-                <Reveal as="span" className="eyebrow">
-                  {content.whyEyebrow}
-                </Reveal>
-                <Reveal as="h2" className="why__title">
-                  {content.whyHeading}
-                </Reveal>
-                <Reveal as="p" className="lead" style={{ marginTop: "1rem" }}>
-                  {content.whyIntro}
-                </Reveal>
+            <Reveal className="sec-head center">
+              <span className="eyebrow center">{content.whyEyebrow}</span>
+              <h2>{content.whyHeading}</h2>
+              <p className="lead">{content.whyIntro}</p>
+            </Reveal>
 
-                <div className="qwrap">
-                  {content.whyQuestions.map((q, i) => (
-                    <Reveal className="qcard" key={q} delay={i * 0.08}>
-                      <span className="qmark">?</span>
-                      <p>{q}</p>
-                    </Reveal>
-                  ))}
-                </div>
-
-                <Reveal as="p" className="why__close">
-                  {content.whyClosing}
+            <div className="why__questions">
+              {content.whyQuestions.map((q, i) => (
+                <Reveal className="qcard" key={q} delay={i * 0.08}>
+                  <span className="qmark">?</span>
+                  <p>{q}</p>
                 </Reveal>
-              </div>
-
-              <Reveal className="why__media">
-                <div className="frame">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={content.whyImage.src} alt={content.whyImage.alt} width={600} height={720} />
-                </div>
-                <div className="stat" aria-hidden="true">
-                  <b>{content.whyBadgeTitle}</b>
-                  <span>{content.whyBadgeSubtitle}</span>
-                </div>
-              </Reveal>
+              ))}
             </div>
+
+            <Reveal as="p" className="why__close">
+              {content.whyClosing}
+            </Reveal>
           </div>
         </section>
 
