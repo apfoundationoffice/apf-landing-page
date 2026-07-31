@@ -233,7 +233,7 @@ p { margin: 0; }
   margin-inline: auto;
   padding-inline: clamp(1.15rem, 4vw, 2.5rem);
 }
-.section { padding-block: clamp(3.75rem, 8vw, 7rem); }
+.section { padding-block: clamp(3.5rem, 6.5vw, 6rem); }
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -460,10 +460,13 @@ p { margin: 0; }
 /* ============================================================
    SECTION HEADING
    ============================================================ */
-.sec-head { max-width: 40ch; }
+.sec-head { max-width: 46rem; }
 .sec-head.center { margin-inline: auto; text-align: center; }
+.sec-head.center h2 { text-wrap: balance; }
 .sec-head h2 { font-size: clamp(2rem, 5vw, 3rem); margin-top: .7rem; }
-.sec-head p { margin-top: 1rem; }
+/* Intro sits a touch narrower than the block and reads across in 2–3 wide
+   lines instead of a tall, skinny centered stack. */
+.sec-head p { margin: 1rem auto 0; max-width: 44rem; }
 
 /* ============================================================
    THE WHY
@@ -688,8 +691,10 @@ p { margin: 0; }
    OUR FOUNDATION — MISSION & VISION (own section under Our Story)
    ============================================================ */
 .foundation { background: linear-gradient(180deg, var(--sand), var(--ivory)); }
-.foundation__verse {
-  margin: 1.5rem auto 0; justify-items: center; text-align: center;
+/* Higher specificity than `.scripture` (which sets a left border later in the
+   file) so the centered, border-free treatment actually applies here. */
+.scripture.foundation__verse {
+  margin: 1.6rem auto 0; justify-items: center; text-align: center;
   border-left: none; padding-left: 0; max-width: 48ch;
 }
 .mv-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.4rem; align-items: stretch; }
