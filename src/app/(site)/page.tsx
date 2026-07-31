@@ -93,18 +93,20 @@ export default async function Home() {
               <p className="lead">{content.whyIntro}</p>
             </Reveal>
 
-            <div className="why__questions">
-              {content.whyQuestions.map((q, i) => (
-                <Reveal className="qcard" key={q} delay={i * 0.08}>
-                  <span className="qmark">?</span>
-                  <p>{q}</p>
-                </Reveal>
-              ))}
-            </div>
+            <div className="why__col">
+              <div className="why__questions">
+                {content.whyQuestions.map((q, i) => (
+                  <Reveal className="qcard" key={q} delay={i * 0.08}>
+                    <span className="qmark">?</span>
+                    <p>{q}</p>
+                  </Reveal>
+                ))}
+              </div>
 
-            <Reveal as="p" className="why__close">
-              {content.whyClosing}
-            </Reveal>
+              <Reveal as="p" className="why__close">
+                {content.whyClosing}
+              </Reveal>
+            </div>
           </div>
         </section>
 
