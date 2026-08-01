@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
 
-const projectId = "wbmdk7c6";
+const projectId = "j4qcykkp";
 const dataset = "production";
 
 /** Read the CLI's stored credentials so no token has to be pasted anywhere. */

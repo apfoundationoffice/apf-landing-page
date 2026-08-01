@@ -20,7 +20,7 @@ import { createClient } from "@sanity/client";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const projectId = "wbmdk7c6";
+const projectId = "j4qcykkp";
 const dataset = "production";
 
 /** Read the Sanity CLI's stored credentials so no token is pasted anywhere. */
