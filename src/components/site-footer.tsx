@@ -16,19 +16,12 @@ export function SiteFooter({
         <div className="footer__top">
           <div className="footer__brandcol">
             <a className="brand" href="#top" aria-label="Anchored Pathways Foundation home">
-              {settings.logo?.src ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img className="brand__logo" src={settings.logo.src} alt={settings.logo.alt} />
-              ) : (
-                <>
-                  <span className="brand__mark" aria-hidden="true">
-                    <AnchorIcon />
-                  </span>
-                  <span className="brand__name">
-                    Anchored Pathways<small>Foundation</small>
-                  </span>
-                </>
-              )}
+              <span className="brand__mark" aria-hidden="true">
+                <AnchorIcon />
+              </span>
+              <span className="brand__name">
+                Anchored Pathways<small>Foundation</small>
+              </span>
             </a>
             <p>{content.footerTagline}</p>
           </div>
