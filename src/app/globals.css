@@ -720,6 +720,38 @@ p { margin: 0; }
 .final__anchor { width: 46px; height: 46px; color: var(--gold-soft); margin-inline:auto; }
 
 /* ============================================================
+   PRIVACY PAGE
+   ============================================================ */
+.privacy-page {
+  padding-block: clamp(4rem, 8vw, 6rem);
+  min-height: 60vh;
+}
+.privacy-page .container-apf { max-width: 760px; }
+.privacy-page h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--navy);
+  margin-bottom: .4rem;
+}
+.privacy-date {
+  font-size: .875rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.5rem;
+}
+.privacy-page h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--navy);
+  margin-top: 2.2rem;
+  margin-bottom: .6rem;
+}
+.privacy-page p { color: var(--ink-soft); line-height: 1.75; margin-bottom: 1rem; }
+.privacy-page ul { padding-left: 1.4rem; margin-bottom: 1rem; }
+.privacy-page ul li { color: var(--ink-soft); line-height: 1.75; margin-bottom: .3rem; }
+.privacy-page a { color: var(--navy); text-decoration: underline; }
+.privacy-page a:hover { color: var(--gold); }
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer { background: #14223b; color: var(--on-navy-mut); padding-block: clamp(2.5rem,5vw,3.5rem); }

@@ -60,7 +60,7 @@ export function SiteFooter({
           </div>
         </div>
         <div className="footer__bottom">
-          <span>&copy; {year} Anchored Pathways Foundation. All rights reserved.</span>
+          <span>&copy; {year} Anchored Pathways Foundation. All rights reserved. &nbsp;<a href="/privacy">Privacy Policy</a></span>
           <span>Beyond Survival.</span>
         </div>
       </div>
