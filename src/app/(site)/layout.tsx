@@ -37,9 +37,24 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Anchored Pathways Foundation — You Are Not Alone",
+  metadataBase: new URL("https://anchoredpaths.org"),
+  title: "Anchored Pathways Foundation | Discipleship Program for Foster Youth",
   description:
-    "Anchored Pathways Foundation walks alongside young adults aging out of foster care through mentorship, community, life skills, and faith-based encouragement — helping them move beyond survival and build a life of stability, purpose, and belonging.",
+    "Anchored Pathways Foundation runs a faith-based discipleship program supporting emancipated foster youth and young adults ages 17–25 as they build stable, God-centered lives.",
+  openGraph: {
+    title: "Anchored Pathways Foundation",
+    description:
+      "A faith-based discipleship program for emancipated foster youth and young adults ages 17–25.",
+    url: "https://anchoredpaths.org/",
+    siteName: "Anchored Pathways Foundation",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anchored Pathways Foundation",
+    description:
+      "A faith-based discipleship program for emancipated foster youth and young adults ages 17–25.",
+  },
 };
 
 const THEMES = new Set(["anchor", "evening", "sand", "christmas"]);
@@ -67,10 +82,23 @@ export default async function RootLayout({
     >
       <body>
         {children}
-        {/* Streams published updates so an edit goes live without a rebuild. */}
         <SanityLive />
-        {/* Click-to-edit overlay — only while an editor is previewing drafts. */}
         {isDraft ? <VisualEditing /> : null}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "NGO",
+              name: "Anchored Pathways Foundation",
+              url: "https://anchoredpaths.org",
+              logo: "https://anchoredpaths.org/opengraph-image",
+              description:
+                "A faith-based discipleship program supporting emancipated foster youth and young adults ages 17–25.",
+              sameAs: ["https://www.instagram.com/anchoredpathways"],
+            }),
+          }}
+        />
       </body>
     </html>
   );
