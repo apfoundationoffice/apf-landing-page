@@ -38,13 +38,13 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://anchoredpaths.org"),
-  title: "Anchored Pathways Foundation | Discipleship Program for Foster Youth",
+  title: "Anchored Pathways Foundation | Support After Foster Care",
   description:
-    "Anchored Pathways Foundation runs a faith-based discipleship program supporting emancipated foster youth and young adults ages 17–25 as they build stable, God-centered lives.",
+    "Anchored Pathways Foundation supports young adults ages 17–25 preparing to age out or who have aged out of foster care through mentorship, life skills, practical resources, community, and voluntary faith-based discipleship.",
   openGraph: {
     title: "Anchored Pathways Foundation",
     description:
-      "A faith-based discipleship program for emancipated foster youth and young adults ages 17–25.",
+      "Supporting young adults ages 17–25 preparing to age out or who have aged out of foster care through mentorship, life skills, practical resources, community, and voluntary faith-based discipleship.",
     url: "https://anchoredpaths.org/",
     siteName: "Anchored Pathways Foundation",
     type: "website",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Anchored Pathways Foundation",
     description:
-      "A faith-based discipleship program for emancipated foster youth and young adults ages 17–25.",
+      "Supporting young adults ages 17–25 preparing to age out or who have aged out of foster care through mentorship, life skills, practical resources, community, and voluntary faith-based discipleship.",
   },
 };
 
@@ -94,7 +94,7 @@ export default async function RootLayout({
               url: "https://anchoredpaths.org",
               logo: "https://anchoredpaths.org/opengraph-image",
               description:
-                "A faith-based discipleship program supporting emancipated foster youth and young adults ages 17–25.",
+                "Supporting young adults ages 17–25 preparing to age out or who have aged out of foster care through mentorship, life skills, practical resources, community, and voluntary faith-based discipleship.",
               sameAs: ["https://www.instagram.com/anchoredpathways"],
             }),
           }}
